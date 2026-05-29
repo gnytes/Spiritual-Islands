@@ -1,1 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiritual Islands Assessment</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .intro {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .question-block {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .scale-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .scale-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.9em;
+        }
+        input[type="radio"] {
+            margin-bottom: 5px;
+            transform: scale(1.5);
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+        #results-container {
+            display: none;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .island-result {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e8f4f8;
+            border-left: 5px solid #3498db;
+            border-radius: 4px;
+        }
+        .island-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <h1>Discover Your Spiritual Island</h1>
+        <div class="intro">
+            <p>Please read each statement carefully. Rate how much each statement sounds like you on a scale of <strong>1 (Not at all like me) to 5 (Very much like me)</strong>.</p>
+            <p>Be honest with your first instinct; think about who you are, not who you aspire to be.</p>
+        </div>
+
+        <form id="assessment-form">
+            <div id="questions-wrapper"></div>
+            <p class="error-message" id="error-msg">Please answer all questions before submitting.</p>
+            <button type="button" class="btn-submit" onclick="calculateResults()">Submit & Get My Results</button>
+        </form>
+    </div>
+
+    <div id="results-container">
+        <h2>Your Spiritual Islands</h2>
+        <p>Based on your responses, here are your primary and secondary spiritual anchors.</p>
+        
+        <div class="island-result">
+            <p>Primary Island</p>
+            <div class="island-title" id="primary-island-name"></div>
+        </div>
+
+        <div class="island-result">
+            <p>Secondary Island</p>
+            <div class="island-title" id="secondary-island-name"></div>
+        </div>
+        
+        <button class="btn-submit" onclick="location.reload()">Take Assessment Again</button>
+    </div>
+
+    <script>
+        const surveyData = [
+            { island: "Enduring Teachings and Traditions", questions: [
+                "I feel most grounded when I follow the teachings and wisdom of an established faith or philosophical tradition.",
+                "The rituals, sacred stories, or foundational texts of a tradition provide the primary structure for my life.",
+                "My moral principles come primarily from established teachings; if my personal views conflict with these teachings, I defer to the teachings.",
+                "One of the first things people learn about me is my connection to a historical faith or philosophy."
+            ]},
+            { island: "Service to Others", questions: [
+                "I feel most spiritually alive when I am actively relieving someone else's burden or suffering.",
+                "My core purpose is expressed by showing tangible care and compassion to others.",
+                "I instinctively move toward people who are hurting, and my first response is to help in a practical way.",
+                "I measure the meaning of my life by the positive impact I have on the well-being of others."
+            ]},
+            { island: "Earth (Nature)", questions: [
+                "I feel a profound sense of peace and connection when I am outdoors.",
+                "The cycles of the natural world (seasons, growth, weather) powerfully center me and remind me of life's deeper beauty and order.",
+                "Being in a wild or natural landscape is essential for me to reset and feel whole.",
+                "I feel a deep, personal responsibility to act as a steward of the environment."
+            ]},
+            { island: "Immersion", questions: [
+                "My most profoundly peaceful moments come from being completely absorbed in an experience (e.g., music, art, athletics, deep work).",
+                "I seek out experiences that produce a \"flow state,\" where I lose track of time and my sense of self.",
+                "A direct, felt experience of awe or flow is more important to my inner peace than intellectual beliefs.",
+                "I feel most connected and centered when an activity, rhythm, or moment seems to be effortlessly flowing through me."
+            ]},
+            { island: "Perspective", questions: [
+                "I find comfort in seeing how all things—from people to history to the cosmos—are part of a larger, interconnected pattern.",
+                "When faced with a crisis, I zoom out to understand its place in the grand scheme of things.",
+                "My sense of purpose comes from understanding the underlying logic and order of the universe.",
+                "I am driven to learn about complex systems to understand how the world works."
+            ]},
+            { island: "The Unknown", questions: [
+                "I am more drawn to life's great mysteries than I am to finding concrete answers for them.",
+                "I feel most spiritually alive when I embrace ambiguity and the limits of human knowledge.",
+                "I find wonder in paradox, silence, and contemplating things that cannot be easily explained.",
+                "I am comfortable with the idea that some questions are not meant to be solved, but to be lived in."
+            ]},
+            { island: "Community", questions: [
+                "My identity is fundamentally shaped by the group I belong to (e.g., family, team, unit, faith community).",
+                "I find my greatest strength and resilience in the loyalty and support of my inner circle.",
+                "I feel a stronger sense of self when I am part of a \"we\" than when I am just an \"I.\"",
+                "Shared history, values, and mutual sacrifice are the cornerstones of a meaningful life for me."
+            ]},
+            { island: "Mission", questions: [
+                "My primary driver in life is the desire to know my actions are contributing to a lasting and significant goal.",
+                "I feel most energized when I am moving forward on a clear mission or calling.",
+                "Life feels incomplete or empty to me without a challenging goal to work toward.",
+                "I am motivated by creating a legacy or making a difference that will outlast me."
+            ]}
+        ];
+
+        // Shuffle array to randomize questions
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Generate Questions
+        const wrapper = document.getElementById('questions-wrapper');
+        let questionCounter = 0;
+        let mappedQuestions = [];
+
+        surveyData.forEach((category, catIndex) => {
+            category.questions.forEach((q, qIndex) => {
+                mappedQuestions.push({ island: category.island, text: q, id: `q_${catIndex}_${qIndex}` });
+            });
+        });
+
+        shuffleArray(mappedQuestions);
+
+        mappedQuestions.forEach((q, index) => {
+            const block = document.createElement('div');
+            block.className = 'question-block';
+            block.innerHTML = `
+                <div class="question-text">${index + 1}. ${q.text}</div>
+                <div class="scale-container">
+                    <label class="scale-option"><input type="radio" name="${q.id}" value="1"> 1</label>
+                    <label class="scale-option"><input type="radio" name="${q.id}" value="2"> 2</label>
+                    <label class="scale-option"><input type="radio" name="${q.id}" value="3"> 3</label>
+                    <label class="scale-option"><input type="radio" name="${q.id}" value="4"> 4</label>
+                    <label class="scale-option"><input type="radio" name="${q.id}" value="5"> 5</label>
+                </div>
+            `;
+            wrapper.appendChild(block);
+        });
+
+        // Calculate and Display Results
+        function calculateResults() {
+            let scores = {
+                "Enduring Teachings and Traditions": 0, "Service to Others": 0, "Earth (Nature)": 0, 
+                "Immersion": 0, "Perspective": 0, "The Unknown": 0, "Community": 0, "Mission": 0
+            };
+            
+            let allAnswered = true;
+
+            mappedQuestions.forEach(q => {
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                if (selected) {
+                    scores[q.island] += parseInt(selected.value);
+                } else {
+                    allAnswered = false;
+                }
+            });
+
+            if (!allAnswered) {
+                document.getElementById('error-msg').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('error-msg').style.display = 'none';
+
+            // Sort scores
+            const sortedIslands = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+
+            document.getElementById('primary-island-name').innerText = sortedIslands[0];
+            document.getElementById('secondary-island-name').innerText = sortedIslands[1];
+
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('results-container').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
 
