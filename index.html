@@ -122,20 +122,46 @@
         });
 
         function calculateResults() {
-            let scores = {};
-            surveyData.forEach(s => scores[s.island] = 0);
+            let scores = {
+                "Enduring Teachings and Traditions": 0, "Service to Others": 0, "Earth (Nature)": 0, 
+                "Immersion": 0, "Perspective": 0, "The Unknown": 0, "Community": 0, "Mission": 0
+            };
+            
             let allAnswered = true;
             mappedQuestions.forEach(q => {
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
                 if (selected) scores[q.island] += parseInt(selected.value);
                 else allAnswered = false;
             });
+
             if (!allAnswered) { document.getElementById('error-msg').style.display = 'block'; return; }
             document.getElementById('error-msg').style.display = 'none';
+            
             const sortedIslands = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+            
+            // Send data to Google Sheet
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzPvsUR4ByM5-ByA-yvgRDXyYUYJeRw-7njg18k7-EM9lttY46L5Jl-m-CR-vgQhsbgw/exec'; // <--- PUT YOUR URL HERE
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    teachings: scores["Enduring Teachings and Traditions"],
+                    service: scores["Service to Others"],
+                    earth: scores["Earth (Nature)"],
+                    immersion: scores["Immersion"],
+                    perspective: scores["Perspective"],
+                    unknown: scores["The Unknown"],
+                    community: scores["Community"],
+                    mission: scores["Mission"]
+                })
+            });
+
+            // Display results
             let resultsHTML = "<h3>All Your Scores:</h3><ul>" + sortedIslands.map(i => `<li><strong>${i}</strong>: ${scores[i]}</li>`).join('') + "</ul>";
             document.getElementById('primary-island-name').innerText = sortedIslands[0];
             document.getElementById('secondary-island-name').innerText = sortedIslands[1];
+            
             const resCont = document.getElementById('results-container');
             resCont.insertAdjacentHTML('beforeend', resultsHTML);
             document.getElementById('quiz-container').style.display = 'none';
