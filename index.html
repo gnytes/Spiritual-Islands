@@ -220,14 +220,13 @@
         });
 
         // Calculate and Display Results
-        function calculateResults() {
+function calculateResults() {
             let scores = {
                 "Enduring Teachings and Traditions": 0, "Service to Others": 0, "Earth (Nature)": 0, 
                 "Immersion": 0, "Perspective": 0, "The Unknown": 0, "Community": 0, "Mission": 0
             };
             
             let allAnswered = true;
-
             mappedQuestions.forEach(q => {
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
                 if (selected) {
@@ -236,13 +235,30 @@
                     allAnswered = false;
                 }
             });
-
             if (!allAnswered) {
                 document.getElementById('error-msg').style.display = 'block';
                 return;
             }
-
-            document.getElementById('error-msg').style.display = 'none';
+            
+            // Generate full results list
+            let resultsHTML = "<h3>All Your Scores:</h3><ul style='text-align:left;'>";
+            const sortedIslands = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+            sortedIslands.forEach(island => {
+                resultsHTML += `<li><strong>${island}</strong>: ${scores[island]}</li>`;
+            });
+            resultsHTML += "</ul>";
+            
+            document.getElementById('primary-island-name').innerText = sortedIslands[0];
+            document.getElementById('secondary-island-name').innerText = sortedIslands[1];
+            
+            // Add the list to the results container
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.insertAdjacentHTML('beforeend', resultsHTML);
+            
+            document.getElementById('quiz-container').style.display = 'none';
+            resultsContainer.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
 
             // Sort scores
             const sortedIslands = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
