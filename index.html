@@ -181,7 +181,6 @@
             ]}
         ];
 
-        // Shuffle array to randomize questions
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -190,9 +189,7 @@
             return array;
         }
 
-        // Generate Questions
         const wrapper = document.getElementById('questions-wrapper');
-        let questionCounter = 0;
         let mappedQuestions = [];
 
         surveyData.forEach((category, catIndex) => {
@@ -219,8 +216,7 @@
             wrapper.appendChild(block);
         });
 
-        // Calculate and Display Results
-function calculateResults() {
+        function calculateResults() {
             let scores = {
                 "Enduring Teachings and Traditions": 0, "Service to Others": 0, "Earth (Nature)": 0, 
                 "Immersion": 0, "Perspective": 0, "The Unknown": 0, "Community": 0, "Mission": 0
@@ -235,14 +231,16 @@ function calculateResults() {
                     allAnswered = false;
                 }
             });
+
             if (!allAnswered) {
                 document.getElementById('error-msg').style.display = 'block';
                 return;
             }
+            document.getElementById('error-msg').style.display = 'none';
             
-            // Generate full results list
-            let resultsHTML = "<h3>All Your Scores:</h3><ul style='text-align:left;'>";
             const sortedIslands = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+            
+            let resultsHTML = "<h3>All Your Scores:</h3><ul style='text-align:left;'>";
             sortedIslands.forEach(island => {
                 resultsHTML += `<li><strong>${island}</strong>: ${scores[island]}</li>`;
             });
@@ -251,26 +249,15 @@ function calculateResults() {
             document.getElementById('primary-island-name').innerText = sortedIslands[0];
             document.getElementById('secondary-island-name').innerText = sortedIslands[1];
             
-            // Add the list to the results container
             const resultsContainer = document.getElementById('results-container');
-            resultsContainer.insertAdjacentHTML('beforeend', resultsHTML);
+            // Remove existing score lists if any to prevent duplicates on repeat attempts
+            const existingList = resultsContainer.querySelector('ul');
+            if (existingList) existingList.remove();
+            const existingHeader = resultsContainer.querySelector('h3');
+            if (existingHeader) existingHeader.remove();
             
+            resultsContainer.insertAdjacentHTML('beforeend', resultsHTML);
             document.getElementById('quiz-container').style.display = 'none';
             resultsContainer.style.display = 'block';
             window.scrollTo(0, 0);
         }
-
-            // Sort scores
-            const sortedIslands = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
-
-            document.getElementById('primary-island-name').innerText = sortedIslands[0];
-            document.getElementById('secondary-island-name').innerText = sortedIslands[1];
-
-            document.getElementById('quiz-container').style.display = 'none';
-            document.getElementById('results-container').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-    </script>
-</body>
-</html>
-
