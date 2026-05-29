@@ -5,130 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spiritual Islands Assessment</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-            max-width: 600px;
-            margin: auto;
-        }
-        h1, h2 {
-            text-align: center;
-            color: #2c3e50;
-        }
-        .intro {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .question-block {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .question-text {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-        .scale-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .scale-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 0.9em;
-        }
-        input[type="radio"] {
-            margin-bottom: 5px;
-            transform: scale(1.5);
-        }
-        .btn-submit {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.2em;
-            cursor: pointer;
-            margin-top: 20px;
-            margin-bottom: 40px;
-        }
-        .btn-submit:hover {
-            background-color: #2980b9;
-        }
-        #results-container {
-            display: none;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .island-result {
-            margin: 20px 0;
-            padding: 15px;
-            background: #e8f4f8;
-            border-left: 5px solid #3498db;
-            border-radius: 4px;
-        }
-        .island-title {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .error-message {
-            color: red;
-            text-align: center;
-            font-weight: bold;
-            display: none;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 20px; max-width: 600px; margin: auto; }
+        h1, h2 { text-align: center; color: #2c3e50; }
+        .intro, .question-block { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .question-text { font-size: 1.1em; margin-bottom: 15px; font-weight: 500; }
+        .scale-container { display: flex; justify-content: space-between; align-items: center; }
+        .scale-option { display: flex; flex-direction: column; align-items: center; font-size: 0.9em; }
+        input[type="radio"] { margin-bottom: 5px; transform: scale(1.5); }
+        .btn-submit { display: block; width: 100%; padding: 15px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 1.2em; cursor: pointer; margin-top: 20px; margin-bottom: 40px; }
+        .btn-submit:hover { background-color: #2980b9; }
+        #results-container { display: none; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .island-result { margin: 20px 0; padding: 15px; background: #e8f4f8; border-left: 5px solid #3498db; border-radius: 4px; }
+        .island-title { font-size: 1.4em; font-weight: bold; color: #2c3e50; }
+        .error-message { color: red; text-align: center; font-weight: bold; display: none; }
     </style>
 </head>
 <body>
-
     <div id="quiz-container">
         <h1>Discover Your Spiritual Island</h1>
         <div class="intro">
-            <p>Please read each statement carefully. Rate how much each statement sounds like you on a scale of <strong>1 (Not at all like me) to 5 (Very much like me)</strong>.</p>
-            <p>Be honest with your first instinct; think about who you are, not who you aspire to be.</p>
+            <p>Please rate each statement <strong>1 (Not at all like me) to 5 (Very much like me)</strong>.</p>
         </div>
-
         <form id="assessment-form">
             <div id="questions-wrapper"></div>
             <p class="error-message" id="error-msg">Please answer all questions before submitting.</p>
             <button type="button" class="btn-submit" onclick="calculateResults()">Submit & Get My Results</button>
         </form>
     </div>
-
     <div id="results-container">
         <h2>Your Spiritual Islands</h2>
-        <p>Based on your responses, here are your primary and secondary spiritual anchors.</p>
-        
         <div class="island-result">
             <p>Primary Island</p>
             <div class="island-title" id="primary-island-name"></div>
         </div>
-
         <div class="island-result">
             <p>Secondary Island</p>
             <div class="island-title" id="secondary-island-name"></div>
         </div>
-        
         <button class="btn-submit" onclick="location.reload()">Take Assessment Again</button>
     </div>
-
     <script>
         const surveyData = [
             { island: "Enduring Teachings and Traditions", questions: [
@@ -191,7 +106,6 @@
 
         const wrapper = document.getElementById('questions-wrapper');
         let mappedQuestions = [];
-
         surveyData.forEach((category, catIndex) => {
             category.questions.forEach((q, qIndex) => {
                 mappedQuestions.push({ island: category.island, text: q, id: `q_${catIndex}_${qIndex}` });
@@ -203,62 +117,31 @@
         mappedQuestions.forEach((q, index) => {
             const block = document.createElement('div');
             block.className = 'question-block';
-            block.innerHTML = `
-                <div class="question-text">${index + 1}. ${q.text}</div>
-                <div class="scale-container">
-                    <label class="scale-option"><input type="radio" name="${q.id}" value="1"> 1</label>
-                    <label class="scale-option"><input type="radio" name="${q.id}" value="2"> 2</label>
-                    <label class="scale-option"><input type="radio" name="${q.id}" value="3"> 3</label>
-                    <label class="scale-option"><input type="radio" name="${q.id}" value="4"> 4</label>
-                    <label class="scale-option"><input type="radio" name="${q.id}" value="5"> 5</label>
-                </div>
-            `;
+            block.innerHTML = `<div class="question-text">${index + 1}. ${q.text}</div><div class="scale-container">${[1,2,3,4,5].map(i => `<label class="scale-option"><input type="radio" name="${q.id}" value="${i}"> ${i}</label>`).join('')}</div>`;
             wrapper.appendChild(block);
         });
 
         function calculateResults() {
-            let scores = {
-                "Enduring Teachings and Traditions": 0, "Service to Others": 0, "Earth (Nature)": 0, 
-                "Immersion": 0, "Perspective": 0, "The Unknown": 0, "Community": 0, "Mission": 0
-            };
-            
+            let scores = {};
+            surveyData.forEach(s => scores[s.island] = 0);
             let allAnswered = true;
             mappedQuestions.forEach(q => {
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
-                if (selected) {
-                    scores[q.island] += parseInt(selected.value);
-                } else {
-                    allAnswered = false;
-                }
+                if (selected) scores[q.island] += parseInt(selected.value);
+                else allAnswered = false;
             });
-
-            if (!allAnswered) {
-                document.getElementById('error-msg').style.display = 'block';
-                return;
-            }
+            if (!allAnswered) { document.getElementById('error-msg').style.display = 'block'; return; }
             document.getElementById('error-msg').style.display = 'none';
-            
             const sortedIslands = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
-            
-            let resultsHTML = "<h3>All Your Scores:</h3><ul style='text-align:left;'>";
-            sortedIslands.forEach(island => {
-                resultsHTML += `<li><strong>${island}</strong>: ${scores[island]}</li>`;
-            });
-            resultsHTML += "</ul>";
-            
+            let resultsHTML = "<h3>All Your Scores:</h3><ul>" + sortedIslands.map(i => `<li><strong>${i}</strong>: ${scores[i]}</li>`).join('') + "</ul>";
             document.getElementById('primary-island-name').innerText = sortedIslands[0];
             document.getElementById('secondary-island-name').innerText = sortedIslands[1];
-            
-            const resultsContainer = document.getElementById('results-container');
-            // Remove existing score lists if any to prevent duplicates on repeat attempts
-            const existingList = resultsContainer.querySelector('ul');
-            if (existingList) existingList.remove();
-            const existingHeader = resultsContainer.querySelector('h3');
-            if (existingHeader) existingHeader.remove();
-            
-            resultsContainer.insertAdjacentHTML('beforeend', resultsHTML);
+            const resCont = document.getElementById('results-container');
+            resCont.insertAdjacentHTML('beforeend', resultsHTML);
             document.getElementById('quiz-container').style.display = 'none';
-            resultsContainer.style.display = 'block';
+            resCont.style.display = 'block';
             window.scrollTo(0, 0);
         }
     </script>
+</body>
+</html>
