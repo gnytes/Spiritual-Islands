@@ -161,26 +161,26 @@
 
             // File mapping
             const islandFiles = {
-                "Enduring Teachings and Traditions": "enduring-teachings.md",
-                "Service to Others": "service.md",
-                "Earth (Nature)": "nature.md",
-                "Immersion": "immersion.md",
-                "Perspective": "perspective.md",
-                "The Unknown": "unknown.md",
-                "Community": "community.md",
-                "Mission": "mission.md"
+                "Enduring Teachings and Traditions": "enduring-teachings",
+                "Service to Others": "service",
+                "Earth (Nature)": "nature",
+                "Immersion": "immersion",
+                "Perspective": "perspective",
+                "The Unknown": "unknown",
+                "Community": "community",
+                "Mission": "mission"
             };
 
             const primaryIsland = sortedIslands[0];
             const islandLink = islandFiles[primaryIsland];
 
             let resultsHTML = `
-                <h3>Your Primary Island: ${primaryIsland}</h3>
-                <a href="/Spiritual-Islands/${islandLink}" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-bottom: 20px;">
-                    Read more about the ${primaryIsland} Island
-                </a>
-                <h3>All Your Scores:</h3>
-                <ul>${sortedIslands.map(i => `<li><strong>${i}</strong>: ${scores[i]}</li>`).join('')}</ul>
+    <h3>Your Primary Island: ${primaryIsland}</h3>
+    <a href="/Spiritual-Islands/${islandLink}/" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-bottom: 20px;">
+        Read more about the ${primaryIsland} Island
+    </a>
+    <h3>All Your Scores:</h3>
+    <ul>${sortedIslands.map(i => `<li><strong>${i}</strong>: ${scores[i]}</li>`).join('')}</ul>
             `;
 
             document.getElementById('primary-island-name').innerText = primaryIsland;
