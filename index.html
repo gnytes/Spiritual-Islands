@@ -133,15 +133,13 @@
             let payload = {};
             
             mappedQuestions.forEach((q, index) => {
-                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
-                if (selected) {
-                    const val = parseInt(selected.value);
-                    scores[q.island] += val;
-                    payload["q" + (index + 1)] = val;
-                } else {
-                    allAnswered = false;
-                }
-            });
+    const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+    if (selected) {
+        const val = parseInt(selected.value);
+        scores[q.island] += val;
+        payload["q" + (index + 1)] = val; // This is the issue
+    }
+});
 
             if (!allAnswered) {
                 document.getElementById('error-msg').style.display = 'block';
