@@ -2,15 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spiritual Island</title>
     <style>
-        body { font-family: sans-serif; padding: 40px; line-height: 1.6; max-width: 800px; margin: auto; }
-        nav { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+        body { 
+            font-family: sans-serif; 
+            line-height: 1.6; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            font-size: 18px; /* Easier to read */
+        }
+        nav { 
+            margin-bottom: 30px; 
+            border-bottom: 1px solid #ccc; 
+            padding-bottom: 10px; 
+        }
+        /* Mobile specific adjustment */
+        @media (max-width: 600px) {
+            body { padding: 15px; font-size: 16px; }
+        }
     </style>
 </head>
 <body>
     <nav style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-    <a href="/Spiritual-Islands/">Assesment</a> |
+    <a href="/Spiritual-Islands/">Assessment</a> |
     <a href="/Spiritual-Islands/enduring-teachings.html">Traditions</a> |
     <a href="/Spiritual-Islands/service.html">Service</a> |
     <a href="/Spiritual-Islands/nature.html">Nature</a> |
