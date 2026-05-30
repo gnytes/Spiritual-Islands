@@ -174,14 +174,26 @@
             const primaryIsland = sortedIslands[0];
             const islandLink = islandFiles[primaryIsland];
 
-            let resultsHTML = `
+            // Define all islands for the "Explore Others" section
+const allIslands = Object.keys(islandFiles);
+const otherLinks = allIslands.map(island => 
+    `<a href="/Spiritual-Islands/${islandFiles[island]}" style="margin: 0 10px;">${island}</a>`
+).join(' • ');
+
+let resultsHTML = `
     <h3>Your Primary Island: ${primaryIsland}</h3>
     <a href="/Spiritual-Islands/${islandLink}" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-bottom: 20px;">
         Read more about the ${primaryIsland} Island
     </a>
+    
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ccc;">
+        <p><strong>Explore other islands:</strong></p>
+        <div style="font-size: 0.9em;">${otherLinks}</div>
+    </div>
+
     <h3>All Your Scores:</h3>
     <ul>${sortedIslands.map(i => `<li><strong>${i}</strong>: ${scores[i]}</li>`).join('')}</ul>
-            `;
+`;
 
             document.getElementById('primary-island-name').innerText = primaryIsland;
             document.getElementById('secondary-island-name').innerText = sortedIslands[1];
