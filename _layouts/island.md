@@ -10,7 +10,7 @@
 </head>
 <body>
     <nav style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-    <a href="/Spiritual-Islands/">assesment</a> |
+    <a href="/Spiritual-Islands/">Assesment</a> |
     <a href="/Spiritual-Islands/enduring-teachings.html">Traditions</a> |
     <a href="/Spiritual-Islands/service.html">Service</a> |
     <a href="/Spiritual-Islands/nature.html">Nature</a> |
