@@ -38,5 +38,8 @@
     <main>
         {{ content }}
     </main>
+    <footer style="margin-top: 50px; padding: 20px; font-size: 0.8em; color: #666; border-top: 1px solid #ccc; text-align: center;">
+    <p>&copy; 2026. Spiritual Islands Framework. Proprietary material for UMT/Resiliency training use only.</p>
+</footer>
 </body>
 </html>
