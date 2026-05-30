@@ -137,7 +137,8 @@
     if (selected) {
         const val = parseInt(selected.value);
         scores[q.island] += val;
-        payload["q" + (index + 1)] = val; // This is the issue
+        // Use the actual ID so the spreadsheet header is consistent
+        payload[q.id] = val; 
     }
 });
 
